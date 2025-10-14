@@ -15,10 +15,10 @@
     /* Sidebar */
     .sidebar {
       height: 100vh;
-      position: fixed;
-      left: 0;
-      top: 0;
       width: 250px;
+      position: fixed;
+      top: 0;
+      left: 0;
       background-color: #0d6efd;
       color: white;
       padding-top: 20px;
@@ -40,20 +40,22 @@
       font-weight: 500;
       border-radius: 5px;
       margin: 5px 10px;
+      transition: background-color 0.2s ease;
     }
 
-    .sidebar a:hover, .sidebar a.active {
+    .sidebar a:hover,
+    .sidebar a.active {
       background-color: #0b5ed7;
     }
 
-    /* Content */
+    /* Main Content */
     .content {
       margin-left: 260px;
       padding: 20px;
       transition: all 0.3s ease;
     }
 
-    /* Toggle Button (Right Side) */
+    /* Toggle Button (Right side) */
     .toggle-btn {
       display: none;
       position: fixed;
@@ -66,8 +68,10 @@
       padding: 8px 12px;
       z-index: 1100;
       font-size: 1.3rem;
+      cursor: pointer;
     }
 
+    /* Card Styling */
     .card {
       border-radius: 15px;
       cursor: pointer;
@@ -78,7 +82,7 @@
       transform: scale(1.05);
     }
 
-    /* Responsive */
+    /* Responsive Design */
     @media (max-width: 992px) {
       .sidebar {
         left: -250px;
@@ -98,9 +102,10 @@
 
 <body>
 
-  <!-- Sidebar -->
+  <!-- Toggle Button -->
   <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
 
+  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <h4>Admin Panel</h4>
     <a href="#" class="active" onclick="showSection('dashboard', event)">Dashboard</a>
@@ -112,10 +117,12 @@
 
   <!-- Main Content -->
   <div class="content">
+    
     <!-- Dashboard -->
     <section id="dashboard" class="section">
       <h2>Dashboard</h2>
       <p>Welcome to the Barangay Himaga Admin Dashboard.</p>
+
       <div class="row g-3">
         <div class="col-6 col-md-3">
           <div class="card text-center p-3 shadow-sm" onclick="showSection('users', event)">
@@ -123,18 +130,21 @@
             <p class="fs-4 fw-bold text-primary">1,240</p>
           </div>
         </div>
+
         <div class="col-6 col-md-3">
           <div class="card text-center p-3 shadow-sm" onclick="showSection('events', event)">
             <h5>Events</h5>
             <p class="fs-4 fw-bold text-success">8</p>
           </div>
         </div>
+
         <div class="col-6 col-md-3">
           <div class="card text-center p-3 shadow-sm" onclick="showSection('announcement', event)">
             <h5>Announcements</h5>
             <p class="fs-4 fw-bold text-warning">5</p>
           </div>
         </div>
+
         <div class="col-6 col-md-3">
           <div class="card text-center p-3 shadow-sm" onclick="showSection('feedback', event)">
             <h5>Feedbacks</h5>
@@ -148,11 +158,14 @@
     <section id="announcement" class="section d-none">
       <h2>Announcements</h2>
       <p>Post new announcements for residents here.</p>
+
       <button class="btn btn-primary mb-3">Add Announcement</button>
+
       <div class="card p-3 shadow-sm mb-2">
         <h5>Upcoming Barangay Clean-up</h5>
         <p>Date: October 20, 2025</p>
       </div>
+
       <div class="card p-3 shadow-sm mb-2">
         <h5>Power Interruption Notice</h5>
         <p>Date: October 25, 2025</p>
@@ -163,10 +176,12 @@
     <section id="events" class="section d-none">
       <h2>Events</h2>
       <button class="btn btn-success mb-3">Add Event</button>
+
       <div class="card p-3 shadow-sm mb-2">
         <h5>Sports Tournament</h5>
         <p>Date: November 5, 2025</p>
       </div>
+
       <div class="card p-3 shadow-sm mb-2">
         <h5>Medical Mission</h5>
         <p>Date: November 12, 2025</p>
@@ -176,9 +191,11 @@
     <!-- Feedback -->
     <section id="feedback" class="section d-none">
       <h2>User Feedback</h2>
+
       <div class="card p-3 shadow-sm mb-2">
         <p><strong>Juan Dela Cruz:</strong> “Thank you for the recent road repair!”</p>
       </div>
+
       <div class="card p-3 shadow-sm mb-2">
         <p><strong>Maria Santos:</strong> “Please schedule another medical mission.”</p>
       </div>
@@ -188,6 +205,7 @@
     <section id="users" class="section d-none">
       <h2>User Management</h2>
       <button class="btn btn-primary mb-3">Add User</button>
+
       <div class="table-responsive">
         <table class="table table-bordered shadow-sm">
           <thead class="table-primary">
@@ -214,34 +232,40 @@
         </table>
       </div>
     </section>
+
   </div>
 
+  <!-- JavaScript -->
   <script>
-    // Sidebar toggle
+    // Toggle Sidebar (for small devices)
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('active');
     }
 
-    // Section switching (used for both sidebar and dashboard cards)
+    // Section Switcher
     function showSection(sectionId, event) {
       const sections = document.querySelectorAll('.section');
       const links = document.querySelectorAll('.sidebar a');
 
+      // Hide all sections
       sections.forEach(section => section.classList.add('d-none'));
+
+      // Show selected section
       document.getElementById(sectionId).classList.remove('d-none');
 
+      // Highlight the active sidebar link
       links.forEach(link => link.classList.remove('active'));
-      const sidebarLink = Array.from(links).find(link => 
+      const sidebarLink = Array.from(links).find(link =>
         link.textContent.trim().toLowerCase() === sectionId.replace(/s$/, '')
       );
       if (sidebarLink) sidebarLink.classList.add('active');
 
-      // Close sidebar on mobile after navigating
+      // Close sidebar on small screens after navigating
       if (window.innerWidth <= 992) {
         document.getElementById('sidebar').classList.remove('active');
       }
 
-      // Prevent scrolling to top
+      // Prevent page reload
       event?.preventDefault();
     }
   </script>
